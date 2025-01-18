@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Animal Detection</title>
+    <style>
+      body {
+        font-family: "Noto Sans Khmer", sans-serif;
+        background-image: url("{{ url_for('static', filename='bg.jpg') }}");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        flex-direction: column;
+      }
+      h1 {
+        color: #fff;
+      }
+      .upload-container {
+        background-color: rgba(
+          255,
+          255,
+          255,
+          0.8
+        ); /* Semi-transparent background */
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        text-align: center;
+        width: 300px;
+      }
+      .upload-container input[type="file"] {
+        margin-bottom: 20px;
+      }
+      .upload-container button {
+        background-color: #0066c5;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+      }
+      .upload-container button:hover {
+        background-color: #025099;
+      }
+      .result {
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: bold;
+        color: #333;
+      }
+      .prediction-list {
+        margin-top: 10px;
+        text-align: left;
+        font-size: 16px;
+      }
+      .prediction-item {
+        margin: 5px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <img src="../static/num-trans.png" />
+    <h1>Animal Detection using AI</h1>
+    <p></p>
+    <div class="upload-container">
+      <input type="file" id="fileInput" accept="image/*" />
+      <br />
+      <button onclick="uploadFile()">ទាយរូបភាពនេះ</button>
+      <div id="result" class="result"></div>
+      <div id="predictions" class="prediction-list"></div>
+      <!-- <div id="note">
+        * ក្នុងការទាយរូបភាពសត្វបានតែសត្វចំនួន ១២ ប៉ុណ្នោះ
+        ខ្លាឃ្មុំ, ឆ្មា, គោ, ក្ដាន់, ឆ្កែ, ដូលហ្វ៊ីន, ដំរី, សេះ, តោ, ខ្លាឃ្មុំ​ Panda, ខ្លា, សេះបង្កង់
+        ក្រៅពីនឹងវាអត់ស្គាល់ទេ!
+      </div> -->
+    </div>
+
+    <script>
+        function uploadFile() {
+            const fileInput = document.getElementById("fileInput");
+            const note = document.getElementById("note");
+            const file = fileInput.files[0];
+            const formData = new FormData();
+            formData.append("file", file);
+
+            //note.remove();
+    
+            fetch("http://127.0.0.1:5000/upload", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                const resultDiv = document.getElementById("result");
+                const predictionsDiv = document.getElementById("predictions");
+    
+                if (data.prediction === "Not recognized") {
+                    resultDiv.innerHTML = "រូបភាពនេះអូនមិនស្គាល់ទេ!";
+                } else {
+                    resultDiv.innerHTML = `រូបភាពនេះជារូបសត្វ: ${data.prediction}`;
+                }
+
+                predictionsDiv.innerHTML = '';
+                if (data.predictions.length > 0) {
+                    data.predictions.forEach(prediction => {
+                        const item = document.createElement('div');
+                        item.classList.add('prediction-item');
+                        item.innerHTML = `ភាគរយការទសទាយ: (${prediction.class_name}: ${prediction.probability.toFixed(2)}%)`;
+                        predictionsDiv.appendChild(item);
+                    });
+                }
+                fileInput.value = '';
+            })
+            .catch(error => {
+                const resultDiv = document.getElementById("result");
+                resultDiv.innerHTML = `Error: ${error.message}`;
+            });
+        }
+    </script>    
+  </body>
+</html>
