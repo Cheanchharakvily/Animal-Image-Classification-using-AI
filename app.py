@@ -14,7 +14,7 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 MODEL_PATH = 'Model/animal_detector_model.h5'
 model = tf.keras.models.load_model(MODEL_PATH)
 
-class_names = ["ខ្លាឃ្មុំ", "ឆ្មា", "គោ", "ក្ដាន់", "ឆ្កែ", "ដូលហ្វ៊ីន", "ដំរី", "សេះ", "តោ", "ខ្លាឃ្មុំ​ Panda", "ខ្លា", "សេះបង្កង់"]
+class_names = ["Bear", "Cat", "Cow", "Deer", "Dog", "Dolphins", "Elephants", "Horse", "Lion", "Panda", "Tiger", "Zebra"]
 
 def classify_image(img_path):
     """Classify the image and return predictions with confidence above 20%."""
