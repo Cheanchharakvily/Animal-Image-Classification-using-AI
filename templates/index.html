@@ -73,14 +73,9 @@
     <div class="upload-container">
       <input type="file" id="fileInput" accept="image/*" />
       <br />
-      <button onclick="uploadFile()">ទាយរូបភាពនេះ</button>
+      <button onclick="uploadFile()">Predict this Image</button>
       <div id="result" class="result"></div>
       <div id="predictions" class="prediction-list"></div>
-      <!-- <div id="note">
-        * ក្នុងការទាយរូបភាពសត្វបានតែសត្វចំនួន ១២ ប៉ុណ្នោះ
-        ខ្លាឃ្មុំ, ឆ្មា, គោ, ក្ដាន់, ឆ្កែ, ដូលហ្វ៊ីន, ដំរី, សេះ, តោ, ខ្លាឃ្មុំ​ Panda, ខ្លា, សេះបង្កង់
-        ក្រៅពីនឹងវាអត់ស្គាល់ទេ!
-      </div> -->
     </div>
 
     <script>
@@ -103,9 +98,9 @@
                 const predictionsDiv = document.getElementById("predictions");
     
                 if (data.prediction === "Not recognized") {
-                    resultDiv.innerHTML = "រូបភាពនេះអូនមិនស្គាល់ទេ!";
+                    resultDiv.innerHTML = "I don't Know!";
                 } else {
-                    resultDiv.innerHTML = `រូបភាពនេះជារូបសត្វ: ${data.prediction}`;
+                    resultDiv.innerHTML = `This Image is: ${data.prediction}`;
                 }
 
                 predictionsDiv.innerHTML = '';
