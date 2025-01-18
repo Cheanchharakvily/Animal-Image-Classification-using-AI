@@ -33,7 +33,7 @@ This project demonstrates the implementation of an AI-based system to classify i
    ```bash
    cd Animal-Image-Classification-using-AI
    ```
-
+3. You need to specify your own model which you trained. Or you can use the Animal-Detection.ipynb to train yourself.
 ---
 
 ## Usage
